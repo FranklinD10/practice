@@ -1,10 +1,6 @@
-import { onLoad, calculate, check, print } from "./index.js";
-
-var count;
-var userAge;
-var MyAge;
-var humanDogRatio;
+import { onLoad, calculate, check, print, count, userAge, myAge, humanDogRatio } from "./index.js";
 
 onLoad();
+check();
 calculate();
 print();

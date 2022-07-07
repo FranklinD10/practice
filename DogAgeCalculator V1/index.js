@@ -1,3 +1,8 @@
+var count;
+var userAge;
+var myAge;
+var humanDogRatio;
+
 function onLoad() { 
     userAge = prompt("What's your age?")
 }
@@ -11,7 +16,7 @@ function calculate() {
 
 function check() {
    if (userAge == null) {
-    run();
+    
     } 
 }
 
@@ -20,4 +25,4 @@ function print() {
     document.getElementById("content-age").innerText = count
 }
 
-export { onLoad, calculate, check, print };
+export { onLoad, calculate, check, print, count, userAge, myAge, humanDogRatio };
