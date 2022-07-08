@@ -9,7 +9,7 @@ function onLoad() {
 
 function calculate() {
     myAge = userAge
-    humanDogRatio = 7
+    humanDogRatio = 8
 
     count = myAge * humanDogRatio
 }
@@ -21,8 +21,8 @@ function check() {
 }
 
 function print() {
-    document.getElementById("content-title").innerText = "My Dog Age"
-    document.getElementById("content-age").innerText = count
+    document.getElementById("content-title").innerText = "My Dog Age";
+    document.getElementById("content-age").innerText = count;
 }
 
 export { onLoad, calculate, check, print, count, userAge, myAge, humanDogRatio };
