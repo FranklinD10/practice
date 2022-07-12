@@ -25,4 +25,4 @@ function print() {
     document.getElementById("content-age").innerText = count;
 }
 
-export { onLoad, calculate, check, print, count, userAge, myAge, humanDogRatio };
+export { execute, calculate, check, print, count, userAge, myAge, humanDogRatio };
