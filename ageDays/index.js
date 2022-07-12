@@ -4,7 +4,7 @@ var myAge;
 var humanDogRatio;
 
 function execute() { 
-    
+    print();
 }
 
 function calculate() {
@@ -21,8 +21,8 @@ function check() {
 }
 
 function print() {
-    document.getElementById("content-title").innerText = "My Dog Age";
-    document.getElementById("content-age").innerText = count;
+    document.getElementById("content-title").innerText = "Results:";
+    document.getElementById("content-age").innerHTML = count;
 }
 
 export { execute, calculate, check, print, count, userAge, myAge, humanDogRatio };
