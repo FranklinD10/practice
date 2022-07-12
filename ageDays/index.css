@@ -1,8 +1,19 @@
 html, body {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
-#content-age {
+#content-title {
     color: blue;
+}
+
+#content-results {
+    color: blue;
+}
+
+.btn {
+    color: blue;
+    margin: 2%;
+    padding: 1%;
 }
