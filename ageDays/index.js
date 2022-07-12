@@ -3,8 +3,8 @@ var userAge;
 var myAge;
 var humanDogRatio;
 
-function onLoad() { 
-    userAge = prompt("What's your age?")
+function execute() { 
+    
 }
 
 function calculate() {
