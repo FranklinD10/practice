@@ -1,20 +1,21 @@
 var count;
 var userAge;
-var myAge;
 var humanDogRatio;
 
 function execute() { 
 
  userAge = getElementById('age').value;
 
+ calculate();
+ print();
+
 }
 
 function calculate() {
 
-    myAge = userAge;
     humanDogRatio = 7;
 
-    count = myAge * humanDogRatio;
+    count = userAge * humanDogRatio;
 }
 
 function check() {
@@ -31,4 +32,4 @@ function print() {
     
 }
 
-export { execute, calculate, check, print, count, userAge, myAge, humanDogRatio };
+export { execute, calculate, check, print, count, userAge, humanDogRatio };
