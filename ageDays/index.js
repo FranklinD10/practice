@@ -2,15 +2,6 @@ var count;
 var userAge;
 var humanDogRatio;
 
-function execute() { 
-
- userAge = getElementById('age').value;
-
- calculate();
- print();
-
-}
-
 function calculate() {
 
     humanDogRatio = 7;
