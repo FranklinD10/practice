@@ -1,1 +1,0 @@
-import { execute, calculate, check, print, count, userAge, humanDogRatio } from "./index.js";
