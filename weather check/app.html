@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Check</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather Check</h1>
+    <section id="weather-data">
+      <p>Checking your current location...</p>
+    </section>
+
+    <script>
+      // Get user's current location
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          const apiKey = 'Y1423624ddc7cac49d3359928b068e77e';
+          const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+          // Fetch weather data from OpenWeatherMap API
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          // Extract the probability of rain
+          const probabilityOfRain = data?.rain?.['1h'] || 0;
+          const willRain = probabilityOfRain > 0.5;
+
+          // Update the HTML to display the probability of rain
+          const weatherDataElement = document.getElementById('weather-data');
+          weatherDataElement.innerHTML = `<p>Probability of rain: ${probabilityOfRain}%</p><p>Will it rain? ${willRain ? 'Yes' : 'No'}</p>`;
+        },
+        (error) => {
+          const weatherDataElement = document.getElementById('weather-data');
+          weatherDataElement.innerHTML = '<p>Could not determine location. Please allow access to your location and try again.</p>';
+          console.error(`Error getting location: ${error.message}`);
+        }
+      );
+    </script>
+  </body>
+</html>
