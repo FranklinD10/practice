@@ -7,9 +7,18 @@
         font-family: Arial, sans-serif;
       }
     </style>
+    <script src="https://api.opencagedata.com/geocode/v1/js/onload.js?key=b849713f744543feafbb76ce6350b2f3"></script>
   </head>
   <body>
     <h1>Weather Check</h1>
+
+    <section id="location-input" style="display: none;">
+      <label for="location">Enter your location:</label><br />
+      <input list="locations" id="location" name="location" />
+      <datalist id="locations"></datalist><br />
+      <button onclick="getWeatherData()">Check Weather</button>
+    </section>
+
     <section id="weather-data">
       <p>Checking your current location...</p>
     </section>
@@ -19,27 +28,78 @@
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          const apiKey = '1423624ddc7cac49d3359928b068e77e';
-          const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
-          // Fetch weather data from OpenWeatherMap API
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-
-          // Extract the probability of rain
-          const probabilityOfRain = data?.rain?.['1h'] || 0;
-          const willRain = probabilityOfRain > 0.5;
-
-          // Update the HTML to display the probability of rain
-          const weatherDataElement = document.getElementById('weather-data');
-          weatherDataElement.innerHTML = `<p>Probability of rain: ${probabilityOfRain}%</p><p>Will it rain? ${willRain ? 'Yes' : 'No'}</p>`;
+          getWeatherData(latitude, longitude);
         },
         (error) => {
-          const weatherDataElement = document.getElementById('weather-data');
-          weatherDataElement.innerHTML = '<p>Could not determine location. Please allow access to your location and try again.</p>';
+          // Show location input if location cannot be determined automatically
+          document.getElementById('location-input').style.display = 'block';
+          document.getElementById('weather-data').innerHTML = '';
           console.error(`Error getting location: ${error.message}`);
         }
       );
-    </script>
-  </body>
-</html>
+
+      // Load previous locations from local storage
+      const previousLocations = JSON.parse(localStorage.getItem('previousLocations')) || [];
+
+      // Update datalist with previous locations
+      const datalist = document.getElementById('locations');
+      for (const location of previousLocations) {
+        const option = document.createElement('option');
+        option.value = location;
+        datalist.appendChild(option);
+      }
+
+      async function getWeatherData(latitude, longitude) {
+        // If latitude and longitude are not provided, get them from the entered location
+        if (!latitude || !longitude) {
+          const locationInput = document.getElementById('location');
+          const location = locationInput.value;
+
+          // Save entered location to local storage
+          if (!previousLocations.includes(location)) {
+            previousLocations.push(location);
+            localStorage.setItem('previousLocations', JSON.stringify(previousLocations));
+
+            // Update datalist with new location
+            const option = document.createElement('option');
+            option.value = location;
+            datalist.appendChild(option);
+          }
+
+          // Geocode the location using OpenCage Geocoder
+          const geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+            location
+          )}&key=b849713f744543feafbb76ce6350b2f3`;
+          const geocodeResponse = await fetch(geocodeUrl);
+          const geocodeData = await geocodeResponse.json();
+          latitude = geocodeData.results[0].geometry.lat;
+          longitude = geocodeData.results[0].geometry.lng;
+        }
+
+        const apiKey = '1423624ddc7cac49d3359928b068e77e';
+        const apiUrl =
+          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+        // Fetch weather data from OpenWeatherMap API
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        // Extract the probability of rain
+        const probabilityOfRain =
+          data?.rain?.['1h'] || 0;
+        const willRain =
+          probabilityOfRain > 0.5;
+
+
+            // Update the HTML to display the probability of rain
+            const weatherDataElement =
+            document.getElementById(
+              'weather-data'
+            );
+            weatherDataElement.innerHTML =
+              `<p>Probability of rain: ${probabilityOfRain}%</p>` +
+              `<p>Will it rain? ${willRain ? 'Yes' : 'No'}</p>`;
+          }
+        </script>
+     </body>
+   </html>
